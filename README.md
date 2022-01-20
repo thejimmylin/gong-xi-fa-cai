@@ -1,14 +1,14 @@
 # gong-xi-fa-cai
 
-Get a best red envelope.
+Get the best red envelope.
 
-# Run doc tests
+# Run the doc tests
 
 ```
 python3 gong_xi_fa_cai.py -v
 ```
 
-# Usage
+# Usages
 
 ```python
 >>> from gong_xi_fa_cai import get_red_envelope
@@ -24,4 +24,4 @@ python3 gong_xi_fa_cai.py -v
 66600
 ```
 
-see `get_red_envelope` in gong_xi_fa_cai.py for more detail.
+See `get_red_envelope` in `gong_xi_fa_cai.py` for more details.
