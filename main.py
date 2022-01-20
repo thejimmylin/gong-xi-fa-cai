@@ -1,33 +1,19 @@
-def get_prefixes(
-    first=("", "1", "2", "3", "6", "8"),
-    second=("0", "2", "6", "8"),
-):
-    prefixes = []
-    for first_char in first:
-        for second_char in second:
-            prefix = first_char + second_char
-            prefixes.append(prefix)
-    prefixes.remove("0")
-    return prefixes
+# good_numbers = [2, 6, 8]
+# good_numbers += [10, 12, 16, 18]
+# good_numbers += [20, 22, 26, 28]
+# good_numbers += [32, 36]
+# good_numbers += [60, 66, 68]
+# good_numbers += [80, 86, 88]
 
 
-def get_prices(
-    max_price,
-    first=("", "1", "2", "3", "6", "8"),
-    second=("0", "2", "6", "8"),
-):
-    prices = []
-    prefixes = get_prefixes(first=first, second=second)
-    ratio = 100
-    while True:
-        new_prices = [int(prefix) * ratio for prefix in prefixes]
-        min_price = min(new_prices)
-        if min_price > max_price:
-            prices = [price for price in prices if price <= max_price]
-            prices = sorted(list(set(prices)))
-            return prices
-        prices.extend(new_prices)
-        ratio = ratio * 10
+# def get_red_envelope():
 
-
-print(get_prices(max_price=100000))
+for n in range(1, 10000):
+    if n % 100 != 0:
+        continue
+    prefix = str(n).rstrip("0")
+    if int(prefix) % 2 != 0:
+        continue
+    if "4" in str(prefix):
+        continue
+    print(n)
