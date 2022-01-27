@@ -38,7 +38,7 @@ def get_lucky_amounts(max_amount, max_prefix_len=2):
 
 
 def is_lucky(amount, max_prefix_len=2):
-    if must_use_change(amount):
+    if need_to_use_change(amount):
         return False
     if contains_4(amount):
         return False
@@ -55,7 +55,7 @@ def is_lucky(amount, max_prefix_len=2):
     return True
 
 
-def must_use_change(amount):
+def need_to_use_change(amount):
     min_bill = 100
     if amount % min_bill == 0:
         return False
@@ -111,7 +111,7 @@ def prefix_better_starts_with_10(amount):
 
 
 def get_prefix(amount):
-    prefix = str(amount).strip("0")
+    prefix = str(amount).rstrip("0")
     return prefix
 
 
