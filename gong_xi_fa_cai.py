@@ -1,4 +1,9 @@
-def get_red_envelope(budget, max_diff_rate=0.1, max_prefix_len=2):
+def get_red_envelope(
+    budget,
+    max_error=0.1,
+    false_odd_prefixes=["1"],
+    max_prefix_len=2,
+):
     """Get a red envelope integer.
 
     >>> get_red_envelope(budget=10000)
@@ -7,88 +12,98 @@ def get_red_envelope(budget, max_diff_rate=0.1, max_prefix_len=2):
     10000
     >>> get_red_envelope(budget=5000)
     3600
-    >>> get_red_envelope(budget=5000, max_diff_rate=0.2)
+    >>> get_red_envelope(budget=5000)
+    3600
+    >>> get_red_envelope(budget=5000, max_error=0.2)
     6000
     >>> get_red_envelope(budget=66666, max_prefix_len=3)
     66600
     """
-    max_amount = budget * (1 + max_diff_rate)
-    lcuky_amounts = get_lucky_amounts(
-        round(max_amount), max_prefix_len=max_prefix_len
+    max_price = round(budget * (1 + max_error))
+    good_prices = get_good_prices(
+        max_price,
+        false_odd_prefixes=false_odd_prefixes,
+        max_prefix_len=max_prefix_len,
     )
-    min_diff_rate = 1
-    last_amount = 0
-    for amount in lcuky_amounts:
-        diff = amount - budget
-        diff_rate = abs(diff / budget)
-        if diff_rate <= min_diff_rate:
-            min_diff_rate = diff_rate
-        else:
-            return last_amount
-        last_amount = amount
-    return last_amount
+    return get_nearest_price(good_prices, budget)
 
 
-def get_lucky_amounts(max_amount, max_prefix_len=2):
-    lcuky_amounts = []
-    for amount in range(1, max_amount + 1):
-        if is_lucky(amount, max_prefix_len):
-            lcuky_amounts.append(amount)
-    return lcuky_amounts
+def get_nearest_price(prices, target):
+    sorted_prices = sorted(prices, key=lambda price: abs(price - target))
+    return sorted_prices[0]
 
 
-def is_lucky(amount, max_prefix_len=2):
-    if need_to_use_change(amount):
+def get_good_prices(max_price, false_odd_prefixes=["1"], max_prefix_len=2):
+    good_prices = []
+    for price in range(1, max_price + 1):
+        if is_good_price(
+            price,
+            false_odd_prefixes=false_odd_prefixes,
+            max_prefix_len=max_prefix_len,
+        ):
+            good_prices.append(price)
+    return good_prices
+
+
+def is_good_price(price, false_odd_prefixes=["1"], max_prefix_len=2):
+    if need_to_use_change(price):
         return False
-    if contains_4(amount):
+    if contains_4(price):
         return False
-    if prefix_is_odd_but_not_one(amount):
+    if contains_8(price):
         return False
-    if prefix_too_long(amount, max_prefix_len=max_prefix_len):
+    if prefix_is_odd(price, false_odd_prefixes=false_odd_prefixes):
         return False
-    if prefix_better_starts_with_6(amount):
+    if prefix_is_too_long(price, max_prefix_len=max_prefix_len):
         return False
-    if contains_8(amount):
+    if prefix_better_starts_with_6(price):
         return False
-    if prefix_better_starts_with_10(amount):
+    if prefix_better_starts_with_1(price):
         return False
     return True
 
 
-def need_to_use_change(amount):
+def need_to_use_change(price):
     min_bill = 100
-    if amount % min_bill == 0:
+    if price % min_bill == 0:
         return False
     else:
         return True
 
 
-def contains_4(amount):
-    if "4" in str(amount):
+def contains_4(price):
+    if "4" in str(price):
         return True
     else:
         return False
 
 
-def prefix_is_odd_but_not_one(amount):
-    prefix = get_prefix(amount)
+def contains_8(price):
+    if "8" in str(price):
+        return True
+    else:
+        return False
+
+
+def prefix_is_odd(price, false_odd_prefixes=["1"]):
+    prefix = get_prefix(price)
     if int(prefix) % 2 == 0:
         return False
-    if prefix == "1":
+    if prefix in false_odd_prefixes:
         return False
     return True
 
 
-def prefix_too_long(amount, max_prefix_len=2):
-    prefix = get_prefix(amount)
+def prefix_is_too_long(price, max_prefix_len=2):
+    prefix = get_prefix(price)
     if len(prefix) > max_prefix_len:
         return True
     else:
         return False
 
 
-def prefix_better_starts_with_6(amount):
-    prefix = get_prefix(amount)
+def prefix_better_starts_with_6(price):
+    prefix = get_prefix(price)
     if prefix.startswith("5"):
         return True
     if prefix.startswith("7"):
@@ -96,22 +111,16 @@ def prefix_better_starts_with_6(amount):
     return False
 
 
-def contains_8(amount):
-    if "8" in str(amount):
+def prefix_better_starts_with_1(price):
+    prefix = get_prefix(price)
+    if prefix.startswith("9"):
         return True
     else:
         return False
 
 
-def prefix_better_starts_with_10(amount):
-    prefix = get_prefix(amount)
-    if prefix.startswith("9"):
-        return True
-    return False
-
-
-def get_prefix(amount):
-    prefix = str(amount).rstrip("0")
+def get_prefix(price):
+    prefix = str(price).rstrip("0")
     return prefix
 
 
