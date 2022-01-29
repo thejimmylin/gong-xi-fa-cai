@@ -2,26 +2,7 @@
 
 Get the best red envelope.
 
-# Run the doc tests
-
-```bash
-python3 tests.py -v
-```
-
-This allows you to run doc tests and produce results like this.
-```bash
-...
-4 items passed all tests:
-   5 tests in gong_xi_fa_cai.get_good_prices
-   6 tests in gong_xi_fa_cai.get_red_envelope
-   6 tests in gong_xi_fa_cai.get_why_bad
-   6 tests in gong_xi_fa_cai.is_good
-23 tests in 6 items.
-23 passed and 0 failed.
-Test passed.
-```
-
-# The basic usages
+# The basic
 
 `gong_xi_fa_cai.get_red_envelope` returns a good red envelope price within your budget.
 ```python
@@ -94,3 +75,22 @@ gong_xi_fa_cai.ReasonNotFound
 ```
 
 See `/gong_xi_fa_cai/__init__.py` for more details.
+
+# Run the doc tests
+
+```bash
+python3 tests.py -v
+```
+
+This allows you to run doc tests and produce results like this.
+```bash
+...
+4 items passed all tests:
+   5 tests in gong_xi_fa_cai.get_good_prices
+   6 tests in gong_xi_fa_cai.get_red_envelope
+   6 tests in gong_xi_fa_cai.get_why_bad
+   6 tests in gong_xi_fa_cai.is_good
+23 tests in 6 items.
+23 passed and 0 failed.
+Test passed.
+```
