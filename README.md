@@ -21,7 +21,7 @@ This allows you to run doc tests and produce results like this.
 Test passed.
 ```
 
-# APIs
+# The basic usages
 
 `gong_xi_fa_cai.get_red_envelope` returns a good red envelope price within your budget.
 ```python
@@ -39,6 +39,8 @@ Test passed.
 >>> get_red_envelope(budget=66666, max_prefix_len=3)
 66600
 ```
+
+# Other APIs
 
 `gong_xi_fa_cai.get_good_prices` returns a good price list for a red envelope.
 ```python
