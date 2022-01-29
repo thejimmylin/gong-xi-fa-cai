@@ -1,7 +1,7 @@
 from .helpers import get_prefix
 
 
-def need_to_use_change(price):
+def needs_to_use_change(price):
     min_bill = 100
     if price % min_bill == 0:
         return False
@@ -40,18 +40,10 @@ def prefix_is_too_long(price, max_prefix_len=2):
         return False
 
 
-def prefix_better_starts_with_6(price):
+def prefix_starts_with_big_odd(price, big_odd=[5, 7, 9]):
     prefix = get_prefix(price)
-    if prefix.startswith("5"):
-        return True
-    if prefix.startswith("7"):
-        return True
-    return False
-
-
-def prefix_better_starts_with_1(price):
-    prefix = get_prefix(price)
-    if prefix.startswith("9"):
+    if prefix.startswith(tuple(str(odd) for odd in big_odd)):
         return True
     else:
         return False
+
