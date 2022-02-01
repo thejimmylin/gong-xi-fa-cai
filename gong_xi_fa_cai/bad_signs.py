@@ -46,4 +46,3 @@ def prefix_starts_with_big_odd(price, big_odd=[5, 7, 9]):
         return True
     else:
         return False
-
